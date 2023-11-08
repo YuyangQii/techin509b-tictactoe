@@ -2,18 +2,38 @@
 # the Tic-Tac-Toe game. This is where input and output happens.
 # For core game logic, see logic.py.
 
-from logic import make_empty_board
+from logic import make_empty_board, get_winner, other_player
 
+def print_board(board):
+    for row in board:
+        print(" | ".join([' ' if cell is None else cell for cell in row]))
+        print("-" * 5)
 
-# Reminder to check all the tests
+def take_turn(player, board):
+    print(f"\n{player}'s turn.")
+    row = int(input("Enter row (0-2): "))
+    col = int(input("Enter column (0-2): "))
+     # Check if the selected cell is empty
+    if board[row][col] is None:
+        board[row][col] = player
+        return True
+    else:
+        print("Invalid move! Cell already taken.")
+        return False
+    
 
 if __name__ == '__main__':
     board = make_empty_board()
     winner = None
+    current_player = 'X'
+    
     while winner == None:
-        print("TODO: take a turn!")
-        # TODO: Show the board to the user.
-        # TODO: Input a move from the player.
-        # TODO: Update the board.
-        # TODO: Update who's turn it is.
-        winner = 'X'  # FIXME
+        print_board(board)
+        if take_turn(current_player, board):
+            winner = get_winner(board)
+            if winner is None:
+                current_player = other_player(current_player)
+    print_board(board)
+    print(f"\n{winner} wins!")
+
+# Reminder to check all the tests
